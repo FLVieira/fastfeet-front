@@ -8,8 +8,9 @@ import './config/reactotronConfig';
 
 import Routes from './routes';
 import history from './services/history';
-
 import { store, persistor } from './store';
+
+import Header from './components/Header';
 
 import GlobalStyle from './styles/global';
 
@@ -18,6 +19,7 @@ function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Router history={history}>
+          <Header />
           <Routes />
           <GlobalStyle />
           <ToastContainer autoClose={1200} />
