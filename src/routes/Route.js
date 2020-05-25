@@ -15,7 +15,7 @@ export default function RouteWrapper({
   }
 
   if (isLoggedIn && !isPrivate) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/packages" />;
   }
 
   return <Route {...rest} render={(props) => <Component {...props} />} />;

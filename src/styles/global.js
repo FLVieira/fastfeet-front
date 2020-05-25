@@ -1,5 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
+import { darken } from 'polished';
+
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export default createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -21,6 +24,7 @@ export default createGlobalStyle`
 
   body {
     -webkit-font-smoothing: antialiased;
+    background-color: #eee;
   }
 
   body, input, button {
@@ -38,4 +42,13 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+
+  .react-confirm-alert-overlay { 
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .react-confirm-alert-body {
+    box-shadow: none;
+    border-radius: 2px;
+   }
 `;
