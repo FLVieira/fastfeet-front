@@ -10,41 +10,63 @@ export const Badge = styled.button`
   border: 0;
 `;
 
-export const Teste = styled.div`
-  position: absolute;
-  display: none;
-  width: 260px;
-  left: calc(50% - 130px);
-  top: calc(100% + 30px);
+export const Option = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 2.5px;
+  background: #fff;
+  width: 120px;
+  height: 30px;
+  border: none;
+  color: #909090;
+  padding-left: 10px;
+
+  b {
+    font-weight: normal;
+    margin-left: 10px;
+    margin-right: auto;
+  }
+
+  &:hover {
+    background: #eee;
+  }
 `;
 
 export const OptionsList = styled.div`
-  display: none;
+  z-index: 1;
   position: absolute;
-  width: 150px;
-  height: 50px;
+  width: 120px;
+  height: 92px;
+  border-radius: 5px;
   background-color: #fff;
-  left: calc(50% - 75px);
-  top: calc(50% + 30px);
-  padding: 15px 5px;
+  left: calc(50% - 60px);
+  top: calc(50% + 15px);
+  display: ${(props) => (props.visible === true ? 'block' : 'none')} !important;
+  box-shadow: 0px 0px 1px 0px rgba(11, 11, 11, 1);
 
   &::before {
     content: '';
     position: absolute;
-    left: calc(50% - 15px);
-    top: -10px;
+    left: calc(50% - 8px);
+    top: -8px;
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 15px solid #000;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #eee;
   }
-`;
 
-export const Option = styled.div`
-  button {
-    width: 30px;
-    height: 30px;
-    border: none;
+  div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    justify-content: space-between;
+    ${Option}:nth-child(2) {
+      border-top: 0.5px solid #eee;
+      border-bottom: 0.5px solid #eee;
+    }
   }
 `;
