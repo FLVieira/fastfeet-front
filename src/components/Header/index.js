@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { Container, StyledLink } from './styles';
 import logo from '~/assets/images/logo.png';
@@ -20,7 +21,9 @@ export default function Header() {
 
   return isLoggedIn ? (
     <Container>
-      <img src={logo} alt="Fast Feet" />
+      <Link to="/packages">
+        <img src={logo} alt="Fast Feet" />
+      </Link>
       <nav>
         <ul>
           <li>

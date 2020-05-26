@@ -1,26 +1,42 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+
 import OutsideClickHandler from 'react-outside-click-handler';
 import { MdRemoveRedEye, MdEdit, MdDeleteForever } from 'react-icons/md';
 
 import { Container, Badge, OptionsList, Option } from './styles';
 
-export default function Options() {
-  const [visible, setVisible] = useState(false);
+import Popup from './Popup';
 
-  function handleToggleVisible() {
-    setVisible(!visible);
+export default function Options({ data }) {
+  const [visible, setVisible] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  function handleShowPopup() {
+    setPopupVisible(true);
+    setVisible(false);
   }
 
   return (
-    <Container>
-      <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
-        <Badge onClick={handleToggleVisible}>
+    <>
+      {popupVisible ? (
+        <Popup
+          width="410px"
+          height="320px"
+          data={data}
+          setPopupVisible={setPopupVisible}
+        />
+      ) : null}
+
+      <Container>
+        <OutsideClickHandler onOutsideClick={() => setVisible(false)} />
+        <Badge onClick={() => setVisible(!visible)}>
           <b>...</b>
         </Badge>
 
         <OptionsList visible={visible}>
           <div>
-            <Option type="button">
+            <Option type="button" onClick={handleShowPopup}>
               <MdRemoveRedEye size={15} color="#7308c4" />
               <b>Vizualizar</b>
             </Option>
@@ -34,7 +50,7 @@ export default function Options() {
             </Option>
           </div>
         </OptionsList>
-      </OutsideClickHandler>
-    </Container>
+      </Container>
+    </>
   );
 }

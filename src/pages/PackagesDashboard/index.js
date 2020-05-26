@@ -102,7 +102,7 @@ export default function PackagesDashboard() {
               <td />
               <td>
                 <aside>
-                  <Options />
+                  <Options data={pack} />
                 </aside>
               </td>
             </tr>
