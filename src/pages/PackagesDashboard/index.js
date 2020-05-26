@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdSearch, MdAdd } from 'react-icons/md';
 import Avatar from 'react-avatar';
 
@@ -6,7 +6,41 @@ import { Container, TopInfo, PackagesTable } from './styles';
 import Status from './Status';
 import Options from './Options';
 
+import api from '~/services/api';
+
 export default function PackagesDashboard() {
+  const [packages, setPackages] = useState([]);
+  const [filter, setFilter] = useState('');
+  const filteredPackages = packages.filter((pack) =>
+    String(pack.id).includes(filter)
+  );
+
+  useEffect(() => {
+    async function loadPackages() {
+      const { data } = await api.get('/orders', {
+        params: { product: '' },
+      });
+      const dataPlusStatus = data.map((pack) => {
+        let status = 'pendente';
+        if (pack.start_date !== null) {
+          status = 'retirada';
+        }
+        if (pack.canceled_at !== null) {
+          status = 'cancelada';
+        }
+        if (pack.end_date !== null) {
+          status = 'entregue';
+        }
+        return {
+          ...pack,
+          status,
+        };
+      });
+      setPackages(dataPlusStatus);
+    }
+    loadPackages();
+  }, []);
+
   return (
     <Container>
       <h1>Gerenciando encomendas</h1>
@@ -14,7 +48,12 @@ export default function PackagesDashboard() {
       <TopInfo>
         <div>
           <MdSearch color="#909090" size={20} />
-          <input type="text" placeholder="Buscar por encomendas" />
+          <input
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            type="text"
+            placeholder="Buscar por encomendas"
+          />
         </div>
 
         <button type="button">
@@ -37,238 +76,37 @@ export default function PackagesDashboard() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Ludwig Van" size={24} round />
-                <strong>Ludwig van Beethoven</strong>
-              </div>
-            </td>
-            <td>
-              <strong>John Doe</strong>
-            </td>
-            <td>
-              <strong>Rio do sul</strong>
-            </td>
-            <td>
-              <strong>Santa Catarina</strong>
-            </td>
-            <td>
-              <Status status="entregue" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Edson Muniz" size={24} round />
-                <strong>Edson Muniz</strong>
-              </div>
-            </td>
-            <td>
-              <strong>João Bobo</strong>
-            </td>
-            <td>
-              <strong>Ituiutaba</strong>
-            </td>
-            <td>
-              <strong>Minas Gerais</strong>
-            </td>
-            <td>
-              <Status status="pendente" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Igor Lourenço" size={24} round />
-                <strong>Igor Lourenço</strong>
-              </div>
-            </td>
-            <td>
-              <strong>Maria Silveira</strong>
-            </td>
-            <td>
-              <strong>Uberlândia</strong>
-            </td>
-            <td>
-              <strong>Minas Gerais</strong>
-            </td>
-            <td>
-              <Status status="cancelada" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Jõao Souza" size={24} round />
-                <strong>Jõao Souza</strong>
-              </div>
-            </td>
-            <td>
-              <strong>Naira Castro</strong>
-            </td>
-            <td>
-              <strong>Rio Verde</strong>
-            </td>
-            <td>
-              <strong>Goiás</strong>
-            </td>
-            <td>
-              <Status status="retirada" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Ludwig Van" size={24} round />
-                <strong>Ludwig van Beethoven</strong>
-              </div>
-            </td>
-            <td>
-              <strong>John Doe</strong>
-            </td>
-            <td>
-              <strong>Rio do sul</strong>
-            </td>
-            <td>
-              <strong>Santa Catarina</strong>
-            </td>
-            <td>
-              <Status status="entregue" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Edson Muniz" size={24} round />
-                <strong>Edson Muniz</strong>
-              </div>
-            </td>
-            <td>
-              <strong>João Bobo</strong>
-            </td>
-            <td>
-              <strong>Ituiutaba</strong>
-            </td>
-            <td>
-              <strong>Minas Gerais</strong>
-            </td>
-            <td>
-              <Status status="pendente" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Igor Lourenço" size={24} round />
-                <strong>Igor Lourenço</strong>
-              </div>
-            </td>
-            <td>
-              <strong>Maria Silveira</strong>
-            </td>
-            <td>
-              <strong>Uberlândia</strong>
-            </td>
-            <td>
-              <strong>Minas Gerais</strong>
-            </td>
-            <td>
-              <Status status="cancelada" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong>#01</strong>
-            </td>
-            <td>
-              <div>
-                <Avatar name="Jõao Souza" size={24} round />
-                <strong>Jõao Souza</strong>
-              </div>
-            </td>
-            <td>
-              <strong>Naira Castro</strong>
-            </td>
-            <td>
-              <strong>Rio Verde</strong>
-            </td>
-            <td>
-              <strong>Goiás</strong>
-            </td>
-            <td>
-              <Status status="retirada" />
-            </td>
-            <td />
-            <td>
-              <aside>
-                <Options />
-              </aside>
-            </td>
-          </tr>
+          {filteredPackages.map((pack) => (
+            <tr key={pack.id}>
+              <td>
+                <strong>#{pack.id}</strong>
+              </td>
+              <td>
+                <strong>{pack.Recipient.receiver_name}</strong>
+              </td>
+              <td>
+                <div>
+                  <Avatar name={pack.Deliveryman.name} size={24} round />
+                  <strong>{pack.Deliveryman.name}</strong>
+                </div>
+              </td>
+              <td>
+                <strong>{pack.Recipient.city}</strong>
+              </td>
+              <td>
+                <strong>{pack.Recipient.state}</strong>
+              </td>
+              <td>
+                <Status status={pack.status} />
+              </td>
+              <td />
+              <td>
+                <aside>
+                  <Options />
+                </aside>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </PackagesTable>
     </Container>

@@ -48,7 +48,6 @@ export const TopInfo = styled.div`
 
 export const PackagesTable = styled.table`
   width: 100%;
-  height: 100%;
   margin: 30px auto;
   border-spacing: 0px;
 
@@ -87,7 +86,7 @@ export const PackagesTable = styled.table`
   }
 
   strong {
-    color: #000;
+    color: #525050;
     font-weight: normal;
     display: block;
   }
