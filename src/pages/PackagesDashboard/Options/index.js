@@ -29,10 +29,11 @@ export default function Options({ data }) {
       ) : null}
 
       <Container>
-        <OutsideClickHandler onOutsideClick={() => setVisible(false)} />
-        <Badge onClick={() => setVisible(!visible)}>
-          <b>...</b>
-        </Badge>
+        <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
+          <Badge onClick={() => setVisible(!visible)}>
+            <b>...</b>
+          </Badge>
+        </OutsideClickHandler>
 
         <OptionsList visible={visible}>
           <div>

@@ -31,35 +31,36 @@ export default function Popup(props) {
 
   return (
     <Container width={String(width)} height={String(height)}>
-      <OutsideClickHandler onOutsideClick={() => setPopupVisible(false)} />
-      <section>
-        <div>
-          <div style={{ textAlign: 'left' }}>
-            <strong>Informações da encomenda</strong>
-            <p>
-              {data.Recipient.street} <br />
-              {data.Recipient.city} - {data.Recipient.state} <br />
-              {data.Recipient.postal_code}
-            </p>
-          </div>
+      <OutsideClickHandler onOutsideClick={() => setPopupVisible(false)}>
+        <section>
           <div>
-            <strong>Datas</strong>
-            <p>
-              <b>Retirada:</b> {data.start_date && formattedDates.start_date}
-              <br />
-              <b>Entrega:</b> {data.end_date && formattedDates.end_date}
-            </p>
+            <div style={{ textAlign: 'left' }}>
+              <strong>Informações da encomenda</strong>
+              <p>
+                {data.Recipient.street} <br />
+                {data.Recipient.city} - {data.Recipient.state} <br />
+                {data.Recipient.postal_code}
+              </p>
+            </div>
+            <div>
+              <strong>Datas</strong>
+              <p>
+                <b>Retirada:</b> {data.start_date && formattedDates.start_date}
+                <br />
+                <b>Entrega:</b> {data.end_date && formattedDates.end_date}
+              </p>
+            </div>
+            <div>
+              <strong>Assinatura do destinatário</strong>
+              {data.signature_picture ? (
+                <img src={data.signature_picture.url} alt="Assinatura" />
+              ) : (
+                <MdWarning size={50} color="#d8de33" />
+              )}
+            </div>
           </div>
-          <div>
-            <strong>Assinatura do destinatário</strong>
-            {data.signature_picture ? (
-              <img src={data.signature_picture.url} alt="Assinatura" />
-            ) : (
-              <MdWarning size={50} color="#d8de33" />
-            )}
-          </div>
-        </div>
-      </section>
+        </section>
+      </OutsideClickHandler>
     </Container>
   );
 }
