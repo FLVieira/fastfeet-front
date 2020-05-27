@@ -4,6 +4,7 @@ import Route from './Route';
 
 import SignIn from '~/pages/SignIn';
 import PackagesDashboard from '~/pages/PackagesDashboard';
+import PackagesRegister from '~/pages/PackagesRegister';
 import DeliverymenDashboard from '~/pages/DeliverymenDashboard';
 import DeliverymenRegister from '~/pages/DeliverymenRegister';
 import RecipientsDashboard from '~/pages/RecipientsDashboard';
@@ -15,7 +16,9 @@ export default function Routes() {
     <Switch>
       <Route exact path="/" component={SignIn} />
 
-      <Route path="/packages" component={PackagesDashboard} isPrivate />
+      <Route exact path="/packages" component={PackagesDashboard} isPrivate />
+
+      <Route path="/packages/register" component={PackagesRegister} isPrivate />
 
       <Route
         exact

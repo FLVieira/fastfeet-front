@@ -65,7 +65,7 @@ export default function PackagesDashboard() {
           />
         </div>
 
-        <Link to="/deliverymen/register">
+        <Link to="/packages/register">
           <MdAdd size={24} color="#fff" />
           <b>CADASTRAR</b>
         </Link>
