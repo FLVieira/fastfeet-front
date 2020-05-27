@@ -11,18 +11,7 @@ import api from '~/services/api';
 
 export default function PackagesDashboard() {
   const [packages, setPackages] = useState([]);
-  const [filter, setFilter] = useState('');
-  const filteredPackages = packages.filter((pack) =>
-    String(pack.id).includes(filter)
-  );
-
-  /*
-  {pack.Deliveryman.avatar.url ? (
-                    <img src={pack.Deliveryman.avatar.url} alt="Imagem" />
-                  ) : (
-                    <Avatar name={pack.Deliveryman.name} size={24} round />
-                  )}
-  */
+  const [filteredPackages, setFilteredPackages] = useState([]);
 
   useEffect(() => {
     async function loadPackages() {
@@ -46,9 +35,23 @@ export default function PackagesDashboard() {
         };
       });
       setPackages(dataPlusStatus);
+      setFilteredPackages(dataPlusStatus);
     }
     loadPackages();
   }, []);
+
+  function handleFilterChange(e) {
+    setFilteredPackages(
+      packages.filter((pack) => String(pack.id).includes(e.target.value))
+    );
+  }
+
+  async function handleDeletePackage(id, index) {
+    await api.delete(`/orders/${id}`);
+    const newPackages = [...filteredPackages];
+    newPackages.splice(index, 1);
+    setFilteredPackages(newPackages);
+  }
 
   return (
     <Container>
@@ -58,8 +61,7 @@ export default function PackagesDashboard() {
         <div>
           <MdSearch color="#909090" size={20} />
           <input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => handleFilterChange(e)}
             type="text"
             placeholder="Buscar por encomendas"
           />
@@ -85,7 +87,7 @@ export default function PackagesDashboard() {
           </tr>
         </thead>
         <tbody>
-          {filteredPackages.map((pack) => (
+          {filteredPackages.map((pack, index) => (
             <tr key={pack.id}>
               <td>
                 <strong>#{pack.id}</strong>
@@ -115,7 +117,11 @@ export default function PackagesDashboard() {
               <td />
               <td>
                 <aside>
-                  <Options data={pack} />
+                  <Options
+                    data={pack}
+                    index={index}
+                    handleDelete={handleDeletePackage}
+                  />
                 </aside>
               </td>
             </tr>

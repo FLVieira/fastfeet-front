@@ -10,10 +10,7 @@ import api from '~/services/api';
 
 export default function DeliverymenDashboard() {
   const [deliverymen, setDeliverymen] = useState([]);
-  const [filter, setFilter] = useState('');
-  const filteredDeliverymen = deliverymen.filter((deliveryman) =>
-    String(deliveryman.name).toLowerCase().includes(filter)
-  );
+  const [filteredDeliverymen, setFilteredDeliverymen] = useState([]);
 
   useEffect(() => {
     async function loadDeliverymen() {
@@ -21,9 +18,25 @@ export default function DeliverymenDashboard() {
         params: { name: '' },
       });
       setDeliverymen(data);
+      setFilteredDeliverymen(data);
     }
     loadDeliverymen();
   }, []);
+
+  function handleFilterChange(e) {
+    setFilteredDeliverymen(
+      deliverymen.filter((deliveryman) =>
+        String(deliveryman.name).includes(e.target.value)
+      )
+    );
+  }
+
+  async function handleDeleteDeliveryman(id, index) {
+    await api.delete(`/deliverymen/${id}`);
+    const newDeliverymen = [...filteredDeliverymen];
+    newDeliverymen.splice(index, 1);
+    setFilteredDeliverymen(newDeliverymen);
+  }
 
   return (
     <Container>
@@ -33,8 +46,7 @@ export default function DeliverymenDashboard() {
         <div>
           <MdSearch color="#909090" size={20} />
           <input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => handleFilterChange(e)}
             type="text"
             placeholder="Buscar por entregadores"
           />
@@ -57,7 +69,7 @@ export default function DeliverymenDashboard() {
           </tr>
         </thead>
         <tbody>
-          {filteredDeliverymen.map((deliveryman) => (
+          {filteredDeliverymen.map((deliveryman, index) => (
             <tr key={deliveryman.id}>
               <td>
                 <strong>#{deliveryman.id}</strong>
@@ -77,7 +89,11 @@ export default function DeliverymenDashboard() {
               </td>
               <td>
                 <aside>
-                  <Options />
+                  <Options
+                    data={deliveryman}
+                    index={index}
+                    handleDelete={handleDeleteDeliveryman}
+                  />
                 </aside>
               </td>
             </tr>

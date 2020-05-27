@@ -1,14 +1,12 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
-
 import OutsideClickHandler from 'react-outside-click-handler';
 import { MdRemoveRedEye, MdEdit, MdDeleteForever } from 'react-icons/md';
 
 import { Container, Badge, OptionsList, Option } from './styles';
-
 import Popup from './Popup';
 
-export default function Options({ data }) {
+export default function Options({ data, handleDelete, index }) {
   const [visible, setVisible] = useState(false);
   const [popupVisible, setPopupVisible] = useState(false);
 
@@ -45,7 +43,7 @@ export default function Options({ data }) {
               <MdEdit size={15} color="#0388fc" />
               <b>Editar</b>
             </Option>
-            <Option type="button">
+            <Option type="button" onClick={() => handleDelete(data.id, index)}>
               <MdDeleteForever size={15} color="#d1281f" />
               <b>Excluir</b>
             </Option>

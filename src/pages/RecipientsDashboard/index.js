@@ -9,10 +9,7 @@ import api from '~/services/api';
 
 export default function RecipientsDashboard() {
   const [recipients, setRecipients] = useState([]);
-  const [filter, setFilter] = useState('');
-  const filteredRecipients = recipients.filter((recipient) =>
-    String(recipient.receiver_name).toLowerCase().includes(filter)
-  );
+  const [filteredRecipients, setFilteredRecipients] = useState([]);
 
   useEffect(() => {
     async function loadRecipients() {
@@ -27,9 +24,25 @@ export default function RecipientsDashboard() {
         };
       });
       setRecipients(dataPlusFormattedAdress);
+      setFilteredRecipients(dataPlusFormattedAdress);
     }
     loadRecipients();
   }, []);
+
+  function handleFilterChange(e) {
+    setFilteredRecipients(
+      recipients.filter((recipient) =>
+        String(recipient.receiver_name).includes(e.target.value)
+      )
+    );
+  }
+
+  async function handleDeleteRecipient(id, index) {
+    await api.delete(`/recipients/${id}`);
+    const newRecipients = [...filteredRecipients];
+    newRecipients.splice(index, 1);
+    setFilteredRecipients(newRecipients);
+  }
 
   return (
     <Container>
@@ -39,8 +52,7 @@ export default function RecipientsDashboard() {
         <div>
           <MdSearch color="#909090" size={20} />
           <input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e) => handleFilterChange(e)}
             type="text"
             placeholder="Buscar por destinatários"
           />
@@ -62,7 +74,7 @@ export default function RecipientsDashboard() {
           </tr>
         </thead>
         <tbody>
-          {filteredRecipients.map((recipient) => (
+          {filteredRecipients.map((recipient, index) => (
             <tr key={recipient.id}>
               <td>
                 <strong>#{recipient.id}</strong>
@@ -75,7 +87,11 @@ export default function RecipientsDashboard() {
               </td>
               <td>
                 <aside>
-                  <Options />
+                  <Options
+                    data={recipient}
+                    index={index}
+                    handleDelete={handleDeleteRecipient}
+                  />
                 </aside>
               </td>
             </tr>
