@@ -11,7 +11,7 @@ import {
   Form,
 } from './styles';
 
-import api from '~/services/api';
+import axios from '~/services/api';
 import history from '~/services/history';
 
 export default function DeliverymenRegister() {
