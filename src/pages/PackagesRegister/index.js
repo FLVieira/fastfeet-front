@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
 
 import {
   Container,
@@ -11,16 +13,62 @@ import {
   Form,
 } from './styles';
 
-import axios from '~/services/api';
+import api from '~/services/api';
 import history from '~/services/history';
 
 export default function DeliverymenRegister() {
-  const [recipient, setRecipient] = useState('');
-  const [deliveryman, setDeliveryman] = useState('');
+  // From API
+  const [recipients, setRecipients] = useState('');
+  const [deliverymen, setDeliverymen] = useState('');
+  // Selected ones
+  const [selectedRecipient, setSelectedRecipient] = useState({});
+  const [selectedDeliveryman, setSelectedDeliveryman] = useState({});
+
   const [product, setProduct] = useState('');
+
+  useEffect(() => {
+    async function loadRecipients() {
+      const { data } = await api.get('/recipients', {
+        params: {
+          name: '',
+        },
+      });
+      const usableData = data.map((r) => {
+        return {
+          value: r.id,
+          label: r.receiver_name,
+        };
+      });
+      setRecipients(usableData);
+    }
+    async function loadDeliverymen() {
+      const { data } = await api.get('/deliverymen', {
+        params: {
+          name: '',
+        },
+      });
+      const usableData = data.map((r) => {
+        return {
+          value: r.id,
+          label: r.name,
+        };
+      });
+      setDeliverymen(usableData);
+    }
+    loadRecipients();
+    loadDeliverymen();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const submitData = {
+      recipient_id: selectedRecipient.value,
+      deliveryman_id: selectedDeliveryman.value,
+      product,
+    };
+    await api.post('/orders', submitData);
+    toast.success('Encomenda cadastrada com sucesso!');
+    history.push('/packages');
   }
 
   return (
@@ -45,25 +93,23 @@ export default function DeliverymenRegister() {
       <FormArea>
         <Form onSubmit={(e) => handleSubmit(e)} id="my-form">
           <b>Destinatário</b>
-          <input
-            type="text"
-            value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
-            placeholder="John Doe"
+          <Select
+            options={recipients}
+            placeholder="Selecione o destinatário"
+            onChange={setSelectedRecipient}
           />
           <b>Entregador</b>
-          <input
-            type="text"
-            value={deliveryman}
-            onChange={(e) => setDeliveryman(e.target.value)}
-            placeholder="John Doe"
+          <Select
+            options={deliverymen}
+            placeholder="Selecione o entregador"
+            onChange={setSelectedDeliveryman}
           />
           <b>Nome do produto</b>
           <input
             type="text"
             value={product}
             onChange={(e) => setProduct(e.target.value)}
-            placeholder="John Doe"
+            placeholder="Profile Unity RTA"
           />
         </Form>
       </FormArea>

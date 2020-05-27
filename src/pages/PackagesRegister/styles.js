@@ -62,19 +62,19 @@ export const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  justify-content: space-between;
   padding: 15px 25px;
 
   b {
     color: #3d3b3b;
+    margin: 10px 0;
     font-size: 13 px;
   }
 
   input {
-    margin: 10px 0;
     padding: 0 10px;
     font-size: 15px;
-    height: 40px;
+    height: 35px;
     border: 1px solid #ddd;
     border-radius: 5px;
   }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import {
   Container,
@@ -35,6 +36,7 @@ export default function DeliverymenRegister() {
       postal_code: postalCode,
     };
     await axios.post('/recipients', submitData);
+    toast.success('Destinatário cadastrado com sucesso!');
     history.push('/recipients');
   }
 

@@ -47,6 +47,7 @@ export default function DeliverymenRegister() {
         name,
         email,
       });
+      toast.success('Entregador cadastrado com sucesso!');
       return history.push('/deliverymen');
     } catch (err) {
       return toast.error(err.response.data.error);
@@ -112,14 +113,3 @@ export default function DeliverymenRegister() {
     </Container>
   );
 }
-
-/*
-{id ? (
-        <ProfilePicture>
-          {foto ? <img src={foto} alt={nome} /> : <FaUserCircle size={180} />}
-          <Link to={`/fotos/${id}`}>
-            <FaEdit size={24} />
-          </Link>
-        </ProfilePicture>
-      ) : null}
-      */
