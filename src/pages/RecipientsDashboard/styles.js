@@ -32,7 +32,8 @@ export const TopInfo = styled.div`
     }
   }
 
-  button {
+  a {
+    color: inherit;
     background: #7308c4;
     border: none;
     border-radius: 4px;

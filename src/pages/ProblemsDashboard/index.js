@@ -39,7 +39,7 @@ export default function ProblemsDashboard() {
               </td>
               <td>
                 <aside>
-                  <Options />
+                  <Options data={problem} />
                 </aside>
               </td>
             </tr>

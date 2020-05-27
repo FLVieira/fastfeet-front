@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { MdSearch, MdAdd } from 'react-icons/md';
 import Avatar from 'react-avatar';
 
@@ -39,10 +40,10 @@ export default function DeliverymenDashboard() {
           />
         </div>
 
-        <button type="button">
+        <Link to="/deliverymen/register">
           <MdAdd size={24} color="#fff" />
           <b>CADASTRAR</b>
-        </button>
+        </Link>
       </TopInfo>
 
       <DeliverymenTable>

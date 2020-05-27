@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MdSearch, MdAdd } from 'react-icons/md';
 import Avatar from 'react-avatar';
 
@@ -56,10 +57,10 @@ export default function PackagesDashboard() {
           />
         </div>
 
-        <button type="button">
+        <Link to="/deliverymen/register">
           <MdAdd size={24} color="#fff" />
           <b>CADASTRAR</b>
-        </button>
+        </Link>
       </TopInfo>
 
       <PackagesTable>

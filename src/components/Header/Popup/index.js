@@ -13,7 +13,11 @@ export default function Popup(props) {
       <OutsideClickHandler onOutsideClick={() => setPopupVisible(false)}>
         <ConfirmationContainer width={String(width)} height={String(height)}>
           <div>
-            <MdErrorOutline size={70} color="#e09b24" />
+            <MdErrorOutline
+              size={70}
+              color="#e09b24"
+              style={{ marginTop: 10 }}
+            />
             <h1>Você tem certeza?</h1>
             <h3>Para sair do sistema, confirme abaixo.</h3>
             <div>
