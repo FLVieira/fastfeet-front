@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import { FaUserCircle } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 import {
   Container,
@@ -21,31 +22,35 @@ export default function DeliverymenRegister() {
   const [picture, setPicture] = useState('');
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    // Posting the picture
-    if (picture !== '') {
-      const file = e.target.picture.files[0];
-      const formData = new FormData();
-      formData.append('file', file);
-      const response = await axios.post(`/files`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      // Posting the deliveryman
-      const avatar_id = response.data.id;
+    try {
+      e.preventDefault();
+      // Posting the picture
+      if (picture !== '') {
+        const file = e.target.picture.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await axios.post(`/files`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        // Posting the deliveryman
+        const avatar_id = response.data.id;
+        await axios.post('/deliverymen', {
+          name,
+          email,
+          avatar_id,
+        });
+        history.push('/deliverymen');
+      }
       await axios.post('/deliverymen', {
         name,
         email,
-        avatar_id,
       });
-      history.push('/deliverymen');
+      return history.push('/deliverymen');
+    } catch (err) {
+      return toast.error(err.response.data.error);
     }
-    await axios.post('/deliverymen', {
-      name,
-      email,
-    });
-    history.push('/deliverymen');
   }
 
   async function handlePictureChange(e) {

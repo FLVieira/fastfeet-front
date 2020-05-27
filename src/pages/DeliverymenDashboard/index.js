@@ -63,7 +63,11 @@ export default function DeliverymenDashboard() {
                 <strong>#{deliveryman.id}</strong>
               </td>
               <td>
-                <Avatar name={deliveryman.name} size={24} round />
+                {deliveryman.avatar ? (
+                  <img src={deliveryman.avatar.url} alt="Imagem" />
+                ) : (
+                  <Avatar name={deliveryman.name} size={24} round />
+                )}
               </td>
               <td>
                 <strong>{deliveryman.name}</strong>

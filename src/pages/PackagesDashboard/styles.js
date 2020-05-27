@@ -76,6 +76,12 @@ export const PackagesTable = styled.table`
     display: flex;
     align-items: center;
 
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+
     strong {
       margin-left: 5px;
     }

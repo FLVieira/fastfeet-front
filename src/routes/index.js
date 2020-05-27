@@ -7,6 +7,7 @@ import PackagesDashboard from '~/pages/PackagesDashboard';
 import DeliverymenDashboard from '~/pages/DeliverymenDashboard';
 import DeliverymenRegister from '~/pages/DeliverymenRegister';
 import RecipientsDashboard from '~/pages/RecipientsDashboard';
+import RecipientsRegister from '~/pages/RecipientsRegister';
 import ProblemsDashboard from '~/pages/ProblemsDashboard';
 
 export default function Routes() {
@@ -29,7 +30,18 @@ export default function Routes() {
         isPrivate
       />
 
-      <Route path="/recipients" component={RecipientsDashboard} isPrivate />
+      <Route
+        exact
+        path="/recipients"
+        component={RecipientsDashboard}
+        isPrivate
+      />
+
+      <Route
+        path="/recipients/register"
+        component={RecipientsRegister}
+        isPrivate
+      />
 
       <Route path="/problems" component={ProblemsDashboard} isPrivate />
     </Switch>

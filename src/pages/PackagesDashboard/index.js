@@ -16,6 +16,14 @@ export default function PackagesDashboard() {
     String(pack.id).includes(filter)
   );
 
+  /*
+  {pack.Deliveryman.avatar.url ? (
+                    <img src={pack.Deliveryman.avatar.url} alt="Imagem" />
+                  ) : (
+                    <Avatar name={pack.Deliveryman.name} size={24} round />
+                  )}
+  */
+
   useEffect(() => {
     async function loadPackages() {
       const { data } = await api.get('/orders', {
@@ -87,7 +95,11 @@ export default function PackagesDashboard() {
               </td>
               <td>
                 <div>
-                  <Avatar name={pack.Deliveryman.name} size={24} round />
+                  {pack.Deliveryman.avatar ? (
+                    <img src={pack.Deliveryman.avatar.url} alt="Imagem" />
+                  ) : (
+                    <Avatar name={pack.Deliveryman.name} size={24} round />
+                  )}
                   <strong>{pack.Deliveryman.name}</strong>
                 </div>
               </td>

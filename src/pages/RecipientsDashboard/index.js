@@ -46,7 +46,7 @@ export default function RecipientsDashboard() {
           />
         </div>
 
-        <Link to="/deliverymen/register">
+        <Link to="/recipients/register">
           <MdAdd size={24} color="#fff" />
           <b>CADASTRAR</b>
         </Link>

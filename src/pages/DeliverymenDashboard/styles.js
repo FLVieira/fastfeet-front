@@ -72,13 +72,10 @@ export const DeliverymenTable = styled.table`
     }
   }
 
-  div {
-    display: flex;
-    align-items: center;
-
-    strong {
-      margin-left: 5px;
-    }
+  img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
   }
 
   aside {
@@ -89,7 +86,6 @@ export const DeliverymenTable = styled.table`
   strong {
     color: #525050;
     font-weight: normal;
-    display: block;
   }
 
   tbody {
