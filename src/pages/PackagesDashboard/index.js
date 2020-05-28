@@ -47,6 +47,7 @@ export default function PackagesDashboard() {
   }
 
   async function handleDeletePackage(id, index) {
+    // Fazer Popup de confirmação de deleção
     await api.delete(`/orders/${id}`);
     const newPackages = [...filteredPackages];
     newPackages.splice(index, 1);

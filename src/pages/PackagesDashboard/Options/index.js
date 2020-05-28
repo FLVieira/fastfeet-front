@@ -4,25 +4,52 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { MdRemoveRedEye, MdEdit, MdDeleteForever } from 'react-icons/md';
 
 import { Container, Badge, OptionsList, Option } from './styles';
-import Popup from './Popup';
+import InfoPopup from '../Popups/InfoPopup';
+import ConfirmationPopup from '../Popups/ConfirmationPopup';
 
 export default function Options({ data, handleDelete, index }) {
   const [visible, setVisible] = useState(false);
-  const [popupVisible, setPopupVisible] = useState(false);
+  const [orderInfoPopupVisible, setOrderInfoPopupVisible] = useState(false);
+  const [confirmationPopupVisible, setConfirmationPopupVisible] = useState(
+    false
+  );
 
-  function handleShowPopup() {
-    setPopupVisible(true);
+  function handleShowInfoPopup() {
+    setOrderInfoPopupVisible(true);
     setVisible(false);
+  }
+
+  function handleShowConfirmationPopup() {
+    setConfirmationPopupVisible(true);
+    setVisible(false);
+  }
+
+  function handleDeletePackage(option) {
+    if (option === false) {
+      setConfirmationPopupVisible(false);
+    }
+    if (option === true) {
+      setConfirmationPopupVisible(false);
+      handleDelete(data.id, index);
+    }
   }
 
   return (
     <>
-      {popupVisible ? (
-        <Popup
+      {confirmationPopupVisible ? (
+        <ConfirmationPopup
+          width="350px"
+          height="250px"
+          setPopupVisible={setConfirmationPopupVisible}
+          handleDelete={handleDeletePackage}
+        />
+      ) : null}
+      {orderInfoPopupVisible ? (
+        <InfoPopup
           width="410px"
           height="320px"
+          setPopupVisible={setOrderInfoPopupVisible}
           data={data}
-          setPopupVisible={setPopupVisible}
         />
       ) : null}
 
@@ -35,7 +62,7 @@ export default function Options({ data, handleDelete, index }) {
 
         <OptionsList visible={visible}>
           <div>
-            <Option type="button" onClick={handleShowPopup}>
+            <Option type="button" onClick={handleShowInfoPopup}>
               <MdRemoveRedEye size={15} color="#7308c4" />
               <b>Vizualizar</b>
             </Option>
@@ -43,7 +70,7 @@ export default function Options({ data, handleDelete, index }) {
               <MdEdit size={15} color="#0388fc" />
               <b>Editar</b>
             </Option>
-            <Option type="button" onClick={() => handleDelete(data.id, index)}>
+            <Option type="button" onClick={handleShowConfirmationPopup}>
               <MdDeleteForever size={15} color="#d1281f" />
               <b>Excluir</b>
             </Option>
