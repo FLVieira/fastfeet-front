@@ -56,10 +56,7 @@ export default function DeliverymenRegister({ match }) {
         return toast.error(err.response.data.error);
       }
       try {
-        if (
-          (initialEditData.avatar && picture !== initialEditData.avatar.url) ||
-          picture !== ''
-        ) {
+        if (initialEditData.avatar && picture !== initialEditData.avatar.url) {
           const file = e.target.picture.files[0];
           const formData = new FormData();
           formData.append('file', file);
@@ -78,7 +75,41 @@ export default function DeliverymenRegister({ match }) {
           return history.push('/deliverymen');
         }
       } catch (err) {
-        return toast.error(err.data.response.error);
+        return toast.error(err.response.data.error);
+      }
+      try {
+        if (!initialEditData.avatar && picture === '') {
+          await api.put(`/deliverymen/${id}`, {
+            name,
+            email,
+          });
+          toast.success('Entregador editado com sucesso!');
+          return history.push('/deliverymen');
+        }
+      } catch (err) {
+        return toast.error(err.response.data.error);
+      }
+      try {
+        if (!initialEditData.avatar && picture !== '') {
+          const file = e.target.picture.files[0];
+          const formData = new FormData();
+          formData.append('file', file);
+          const response = await api.post(`/files`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          const avatar_id = response.data.id;
+          await api.put(`/deliverymen/${id}`, {
+            name,
+            email,
+            avatar_id,
+          });
+          toast.success('Entregador editado com sucesso!');
+          return history.push('/deliverymen');
+        }
+      } catch (err) {
+        return toast.error(err.response.data.error);
       }
     }
 
