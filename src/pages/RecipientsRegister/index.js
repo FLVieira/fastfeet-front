@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import { toast } from 'react-toastify';
@@ -12,10 +12,10 @@ import {
   Form,
 } from './styles';
 
-import axios from '~/services/api';
+import api from '~/services/api';
 import history from '~/services/history';
 
-export default function DeliverymenRegister() {
+export default function RecipientsRegister({ match }) {
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
@@ -23,6 +23,24 @@ export default function DeliverymenRegister() {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [postalCode, setPostalCode] = useState('');
+
+  const { id } = match.params;
+
+  useEffect(() => {
+    async function loadRecipient() {
+      const { data } = await api.get(`/recipients/${id}`);
+      setName(data.receiver_name);
+      setStreet(data.street);
+      setNumber(data.number);
+      setComplement(data.adress_complement);
+      setCity(data.city);
+      setState(data.state);
+      setPostalCode(data.postal_code);
+    }
+    if (id) {
+      loadRecipient();
+    }
+  }, [id]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -35,16 +53,23 @@ export default function DeliverymenRegister() {
       state,
       postal_code: postalCode,
     };
-    await axios.post('/recipients', submitData);
-    toast.success('Destinatário cadastrado com sucesso!');
-    history.push('/recipients');
+    if (!id) {
+      await api.post('/recipients', submitData);
+      toast.success('Destinatário cadastrado com sucesso!');
+      return history.push('/recipients');
+    }
+    await api.put(`/recipients/${id}`, submitData);
+    toast.success('Destinatário editado com sucesso!');
+    return history.push('/recipients');
   }
 
   return (
     <Container>
       <TopInfo>
         <LeftInfo>
-          <h1>Cadastro de destinatários</h1>
+          <h1>
+            {id ? 'Edição de destinatários' : 'Cadastro de destinatários'}
+          </h1>
         </LeftInfo>
 
         <RightInfo>
