@@ -20,6 +20,8 @@ export default function Routes() {
 
       <Route path="/packages/register" component={PackagesRegister} isPrivate />
 
+      <Route path="/packages/edit/:id" component={PackagesRegister} isPrivate />
+
       <Route
         exact
         path="/deliverymen"
@@ -34,6 +36,12 @@ export default function Routes() {
       />
 
       <Route
+        path="/deliverymen/edit/:id"
+        component={DeliverymenRegister}
+        isPrivate
+      />
+
+      <Route
         exact
         path="/recipients"
         component={RecipientsDashboard}
@@ -42,6 +50,12 @@ export default function Routes() {
 
       <Route
         path="/recipients/register"
+        component={RecipientsRegister}
+        isPrivate
+      />
+
+      <Route
+        path="/recipients/edit/:id"
         component={RecipientsRegister}
         isPrivate
       />

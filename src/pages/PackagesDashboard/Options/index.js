@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { MdRemoveRedEye, MdEdit, MdDeleteForever } from 'react-icons/md';
 
@@ -66,10 +67,12 @@ export default function Options({ data, handleDelete, index }) {
               <MdRemoveRedEye size={15} color="#7308c4" />
               <b>Vizualizar</b>
             </Option>
-            <Option type="button">
-              <MdEdit size={15} color="#0388fc" />
-              <b>Editar</b>
-            </Option>
+            <Link to={`/packages/edit/${data.id}`}>
+              <Option type="button">
+                <MdEdit size={15} color="#0388fc" />
+                <b>Editar</b>
+              </Option>
+            </Link>
             <Option type="button" onClick={handleShowConfirmationPopup}>
               <MdDeleteForever size={15} color="#d1281f" />
               <b>Excluir</b>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { MdEdit, MdDeleteForever } from 'react-icons/md';
 
@@ -48,10 +49,12 @@ export default function Options({ data, handleDelete, index }) {
 
           <OptionsList visible={visible}>
             <div>
-              <Option type="button">
-                <MdEdit size={15} color="#0388fc" />
-                <b>Editar</b>
-              </Option>
+              <Link to={`/recipients/edit/${data.id}`}>
+                <Option type="button">
+                  <MdEdit size={15} color="#0388fc" />
+                  <b>Editar</b>
+                </Option>
+              </Link>
               <Option type="button" onClick={handleShowConfirmationPopup}>
                 <MdDeleteForever size={15} color="#d1281f" />
                 <b>Excluir</b>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import { FaUserCircle } from 'react-icons/fa';
@@ -13,37 +13,97 @@ import {
   Form,
 } from './styles';
 
-import axios from '~/services/api';
+import api from '~/services/api';
 import history from '~/services/history';
 
-export default function DeliverymenRegister() {
+export default function DeliverymenRegister({ match }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [picture, setPicture] = useState('');
+  // Checking if id/register
+  const [initialEditData, setInitalEditData] = useState({});
+  const { id } = match.params;
+
+  useEffect(() => {
+    async function loadDeliverymanInfo() {
+      const { data } = await api.get(`/deliverymen/${id}`);
+      setName(data.name);
+      setEmail(data.email);
+      if (data.avatar) {
+        setPicture(data.avatar.url);
+      }
+      setInitalEditData(data);
+    }
+    if (id) {
+      loadDeliverymanInfo();
+    }
+  }, [id]);
 
   async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (id) {
+      try {
+        if (initialEditData.avatar && picture === initialEditData.avatar.url) {
+          await api.put(`/deliverymen/${id}`, {
+            name,
+            email,
+          });
+          toast.success('Entregador editado com sucesso!');
+          return history.push('/deliverymen');
+        }
+      } catch (err) {
+        return toast.error(err.response.data.error);
+      }
+      try {
+        if (
+          (initialEditData.avatar && picture !== initialEditData.avatar.url) ||
+          picture !== ''
+        ) {
+          const file = e.target.picture.files[0];
+          const formData = new FormData();
+          formData.append('file', file);
+          const response = await api.post(`/files`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          const avatar_id = response.data.id;
+          await api.put(`/deliverymen/${id}`, {
+            name,
+            email,
+            avatar_id,
+          });
+          toast.success('Entregador editado com sucesso!');
+          return history.push('/deliverymen');
+        }
+      } catch (err) {
+        return toast.error(err.data.response.error);
+      }
+    }
+
     try {
-      e.preventDefault();
-      // Posting the picture
       if (picture !== '') {
+        // Posting the picture
         const file = e.target.picture.files[0];
         const formData = new FormData();
         formData.append('file', file);
-        const response = await axios.post(`/files`, formData, {
+        const response = await api.post(`/files`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
         // Posting the deliveryman
         const avatar_id = response.data.id;
-        await axios.post('/deliverymen', {
+        await api.post('/deliverymen', {
           name,
           email,
           avatar_id,
         });
-        history.push('/deliverymen');
+        toast.success('Entregador cadastrado com sucesso!');
+        return history.push('/deliverymen');
       }
-      await axios.post('/deliverymen', {
+      await api.post('/deliverymen', {
         name,
         email,
       });
@@ -64,7 +124,7 @@ export default function DeliverymenRegister() {
     <Container>
       <TopInfo>
         <LeftInfo>
-          <h1>Cadastro de entregadores</h1>
+          <h1>{id ? 'Edição de entregadores' : 'Cadastro de entregadores'}</h1>
         </LeftInfo>
 
         <RightInfo>
@@ -113,3 +173,5 @@ export default function DeliverymenRegister() {
     </Container>
   );
 }
+
+// <Avatar name={pack.Deliveryman.name} size={24} round />

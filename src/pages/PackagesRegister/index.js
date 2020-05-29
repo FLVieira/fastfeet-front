@@ -16,13 +16,15 @@ import {
 import api from '~/services/api';
 import history from '~/services/history';
 
-export default function DeliverymenRegister() {
+export default function DeliverymenRegister({ match }) {
   // From API
   const [recipients, setRecipients] = useState('');
   const [deliverymen, setDeliverymen] = useState('');
   // Selected ones
   const [selectedRecipient, setSelectedRecipient] = useState({});
   const [selectedDeliveryman, setSelectedDeliveryman] = useState({});
+  // Checking if edit/register
+  const { id } = match.params;
 
   const [product, setProduct] = useState('');
 
@@ -55,9 +57,24 @@ export default function DeliverymenRegister() {
       });
       setDeliverymen(usableData);
     }
+    async function loadOrderInfo() {
+      const { data } = await api.get(`/orders/${id}`);
+      setProduct(data.product);
+      setSelectedRecipient({
+        value: data.Recipient.id,
+        label: data.Recipient.receiver_name,
+      });
+      setSelectedDeliveryman({
+        value: data.Deliveryman.id,
+        label: data.Deliveryman.name,
+      });
+    }
     loadRecipients();
     loadDeliverymen();
-  }, []);
+    if (id) {
+      loadOrderInfo();
+    }
+  }, [id]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -66,16 +83,21 @@ export default function DeliverymenRegister() {
       deliveryman_id: selectedDeliveryman.value,
       product,
     };
-    await api.post('/orders', submitData);
-    toast.success('Encomenda cadastrada com sucesso!');
-    history.push('/packages');
+    if (!id) {
+      await api.post('/orders', submitData);
+      toast.success('Encomenda cadastrada com sucesso!');
+      return history.push('/packages');
+    }
+    await api.put(`/orders/${id}`, submitData);
+    toast.success('Encomenda editada com sucesso!');
+    return history.push('/packages');
   }
 
   return (
     <Container>
       <TopInfo>
         <LeftInfo>
-          <h1>Cadastro de encomendas</h1>
+          <h1>{id ? 'Edição de encomendas' : 'Cadastro de encomendas'}</h1>
         </LeftInfo>
 
         <RightInfo>
@@ -97,12 +119,14 @@ export default function DeliverymenRegister() {
             options={recipients}
             placeholder="Selecione o destinatário"
             onChange={setSelectedRecipient}
+            value={selectedRecipient}
           />
           <b>Entregador</b>
           <Select
             options={deliverymen}
             placeholder="Selecione o entregador"
             onChange={setSelectedDeliveryman}
+            value={selectedDeliveryman}
           />
           <b>Nome do produto</b>
           <input
