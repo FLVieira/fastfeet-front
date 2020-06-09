@@ -2,16 +2,22 @@ import React, { useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { MdEdit, MdDeleteForever } from 'react-icons/md';
 
-import { Container, Badge, OptionsList, Option } from './styles';
+import {
+  Container,
+  Badge,
+  OptionsList,
+  Option,
+  ModalContainer,
+} from './styles';
 
-import Popup from './Popup';
+import Modal from '~/components/Modal';
 
 export default function Options({ data }) {
   const [visible, setVisible] = useState(false);
-  const [popupVisible, setPopupVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  function handleShowPopup() {
-    setPopupVisible(true);
+  function handleShowModal() {
+    setModalVisible(true);
     setVisible(false);
   }
 
@@ -21,14 +27,19 @@ export default function Options({ data }) {
 
   return (
     <>
-      {popupVisible ? (
-        <Popup
+      {modalVisible && (
+        <Modal
           width="250px"
           height="150px"
           data={data}
-          setPopupVisible={setPopupVisible}
-        />
-      ) : null}
+          setModalVisible={setModalVisible}
+        >
+          <ModalContainer>
+            <h1>VIZUALIZAR PROBLEMA</h1>
+            <p>{data.description}</p>
+          </ModalContainer>
+        </Modal>
+      )}
 
       <Container>
         <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
@@ -38,7 +49,7 @@ export default function Options({ data }) {
 
           <OptionsList visible={visible}>
             <div>
-              <Option type="button" onClick={handleShowPopup}>
+              <Option type="button" onClick={handleShowModal}>
                 <MdEdit size={15} color="#0388fc" />
                 <b>Visualizar</b>
               </Option>

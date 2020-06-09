@@ -1,46 +1,65 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { MdEdit, MdDeleteForever } from 'react-icons/md';
+import { MdEdit, MdDeleteForever, MdErrorOutline } from 'react-icons/md';
 
-import { Container, Badge, OptionsList, Option } from './styles';
-import ConfirmationPopup from '../Popups/ConfirmationPopup';
+import {
+  Container,
+  Badge,
+  OptionsList,
+  Option,
+  ModalContainer,
+} from './styles';
+import Modal from '~/components/Modal';
 
 export default function Options({ data, handleDelete, index }) {
   const [visible, setVisible] = useState(false);
-  const [confirmationPopupVisible, setConfirmationPopupVisible] = useState(
-    false
-  );
+  const [modalVisible, setModalVisible] = useState(false);
 
   function handleToggleVisible() {
     setVisible(!visible);
   }
 
-  function handleShowConfirmationPopup() {
+  function handleShowModal() {
     setVisible(false);
-    setConfirmationPopupVisible(true);
+    setModalVisible(true);
   }
 
   function handleDeleteDeliveryman(option) {
     if (option === false) {
-      setConfirmationPopupVisible(false);
+      setModalVisible(false);
     }
     if (option === true) {
-      setConfirmationPopupVisible(false);
+      setModalVisible(false);
       handleDelete(data.id, index);
     }
   }
 
   return (
     <>
-      {confirmationPopupVisible ? (
-        <ConfirmationPopup
-          width="350px"
-          height="250px"
-          setPopupVisible={setConfirmationPopupVisible}
-          handleDelete={handleDeleteDeliveryman}
-        />
-      ) : null}
+      {modalVisible && (
+        <Modal width="350px" height="250px" setModalVisible={setModalVisible}>
+          <ModalContainer>
+            <MdErrorOutline size={70} color="#e09b24" />
+            <h1>Você tem certeza?</h1>
+            <h3>Para excluir o destinatário, confirme abaixo.</h3>
+            <div>
+              <button
+                type="button"
+                onClick={() => handleDeleteDeliveryman(true)}
+              >
+                Sim
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDeleteDeliveryman(false)}
+              >
+                Não
+              </button>
+            </div>
+          </ModalContainer>
+        </Modal>
+      )}
       <Container>
         <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
           <Badge onClick={handleToggleVisible}>
@@ -55,7 +74,7 @@ export default function Options({ data, handleDelete, index }) {
                   <b>Editar</b>
                 </Option>
               </Link>
-              <Option type="button" onClick={handleShowConfirmationPopup}>
+              <Option type="button" onClick={handleShowModal}>
                 <MdDeleteForever size={15} color="#d1281f" />
                 <b>Excluir</b>
               </Option>

@@ -4,7 +4,8 @@ import { MdSearch, MdAdd } from 'react-icons/md';
 import Avatar from 'react-avatar';
 
 import { Container, TopInfo, PackagesTable } from './styles';
-import Status from './Status';
+import Status from '~/components/Status';
+
 import Options from './Options';
 
 import api from '~/services/api';

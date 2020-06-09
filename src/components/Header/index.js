@@ -1,38 +1,56 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { MdErrorOutline } from 'react-icons/md';
 
-import { Container, StyledLink } from './styles';
+import { Container, StyledLink, ModalContainer } from './styles';
 import logo from '~/assets/images/logo.png';
 
 import { signOut } from '~/store/modules/auth/actions';
 
-import Popup from './Popup';
+import Modal from '../Modal';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
-  const [confirmationPopup, setConfirmationPopup] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(false);
 
   function handleLogout(option) {
     if (option === false) {
-      setConfirmationPopup(false);
+      setConfirmationModal(false);
     }
     if (option === true) {
-      setConfirmationPopup(false);
+      setConfirmationModal(false);
       dispatch(signOut());
     }
   }
 
   return isLoggedIn ? (
     <>
-      {confirmationPopup ? (
-        <Popup
+      {confirmationModal ? (
+        <Modal
           width="350px"
           height="250px"
-          setPopupVisible={setConfirmationPopup}
-          handleLogout={handleLogout}
-        />
+          setModalVisible={setConfirmationModal}
+        >
+          <ModalContainer>
+            <MdErrorOutline
+              size={70}
+              color="#e09b24"
+              style={{ marginTop: 10 }}
+            />
+            <h1>Você tem certeza?</h1>
+            <h3>Para sair do sistema, confirme abaixo.</h3>
+            <div>
+              <button type="button" onClick={() => handleLogout(true)}>
+                Sim
+              </button>
+              <button type="button" onClick={() => handleLogout(false)}>
+                Não
+              </button>
+            </div>
+          </ModalContainer>
+        </Modal>
       ) : null}
 
       <Container>
@@ -56,7 +74,7 @@ export default function Header() {
           </ul>
           <div>
             <b>Admin FastFeet</b>
-            <button type="button" onClick={() => setConfirmationPopup(true)}>
+            <button type="button" onClick={() => setConfirmationModal(true)}>
               sair do sistema
             </button>
           </div>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   position: relative;
@@ -67,6 +68,54 @@ export const OptionsList = styled.div`
     ${Option}:nth-child(2) {
       border-top: 0.5px solid #eee;
       border-bottom: 0.5px solid #eee;
+    }
+  }
+`;
+
+export const ModalContainer = styled.div`
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  svg {
+    margin: 20px 0;
+  }
+
+  h1 {
+    color: #403e3b;
+    font-size: 20px;
+  }
+
+  h3 {
+    color: #615c54;
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 80%;
+    height: 50%;
+
+    button {
+      width: 45%;
+      height: 30px;
+      background: #7308c4;
+      font-weight: bold;
+      color: #fff;
+      border: 0;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: ${darken(0.05, '#7308c4')};
+      }
     }
   }
 `;

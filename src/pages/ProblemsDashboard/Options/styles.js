@@ -72,3 +72,15 @@ export const OptionsList = styled.div`
     }
   }
 `;
+
+export const ModalContainer = styled.div`
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  color: #909090;
+  margin: 10px;
+  h1 {
+    margin-bottom: 10px;
+  }
+`;
