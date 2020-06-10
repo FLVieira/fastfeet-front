@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import { FaUserCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -205,4 +206,10 @@ export default function DeliverymenRegister({ match }) {
   );
 }
 
-// <Avatar name={pack.Deliveryman.name} size={24} round />
+DeliverymenRegister.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.number,
+    }).isRequired,
+  }).isRequired,
+};

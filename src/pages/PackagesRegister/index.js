@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -16,7 +17,7 @@ import {
 import api from '~/services/api';
 import history from '~/services/history';
 
-export default function DeliverymenRegister({ match }) {
+export default function PackagesRegister({ match }) {
   // From API
   const [recipients, setRecipients] = useState('');
   const [deliverymen, setDeliverymen] = useState('');
@@ -140,3 +141,11 @@ export default function DeliverymenRegister({ match }) {
     </Container>
   );
 }
+
+PackagesRegister.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.number,
+    }).isRequired,
+  }).isRequired,
+};

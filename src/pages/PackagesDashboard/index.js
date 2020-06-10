@@ -24,11 +24,11 @@ export default function PackagesDashboard() {
         if (pack.start_date !== null) {
           status = 'retirada';
         }
-        if (pack.canceled_at !== null) {
-          status = 'cancelada';
-        }
         if (pack.end_date !== null) {
           status = 'entregue';
+        }
+        if (pack.canceled_at !== null) {
+          status = 'cancelada';
         }
         return {
           ...pack,

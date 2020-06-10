@@ -1,9 +1,10 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import PropTypes from 'prop-types';
+
 import {
   MdRemoveRedEye,
   MdEdit,
@@ -157,3 +158,22 @@ export default function Options({ data, handleDelete, index }) {
     </>
   );
 }
+
+Options.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    start_date: PropTypes.string.isRequired,
+    end_date: PropTypes.string.isRequired,
+    Recipient: PropTypes.shape({
+      street: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
+      postal_code: PropTypes.string.isRequired,
+    }).isRequired,
+    signature_picture: PropTypes.shape({
+      url: PropTypes.string,
+    }),
+  }).isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+};

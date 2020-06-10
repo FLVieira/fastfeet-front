@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Background, Circle } from './styles';
 
 export default function Status(props) {
-  // eslint-disable-next-line react/prop-types
   const { status } = props;
   let theme = '#eee';
   let statusText;
@@ -28,3 +28,7 @@ export default function Status(props) {
     </Background>
   );
 }
+
+Status.propTypes = {
+  status: PropTypes.string.isRequired,
+};

@@ -16,6 +16,13 @@ export default function ProblemsDashboard() {
     loadProblems();
   }, []);
 
+  async function handleCancelOrder(id, index) {
+    await api.delete(`/problem/${id}/cancel-delivery`);
+    const newProblems = [...problems];
+    newProblems.splice(index, 1);
+    setProblems(newProblems);
+  }
+
   return (
     <Container>
       <h1>Problemas na entrega</h1>
@@ -29,7 +36,7 @@ export default function ProblemsDashboard() {
           </tr>
         </thead>
         <tbody>
-          {problems.map((problem) => (
+          {problems.map((problem, index) => (
             <tr key={problem.id}>
               <td>
                 <strong>#{problem.id}</strong>
@@ -39,7 +46,11 @@ export default function ProblemsDashboard() {
               </td>
               <td>
                 <aside>
-                  <Options data={problem} />
+                  <Options
+                    data={problem}
+                    index={index}
+                    handleCancel={handleCancelOrder}
+                  />
                 </aside>
               </td>
             </tr>

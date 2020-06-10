@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MdKeyboardArrowLeft, MdDone } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -145,13 +146,10 @@ export default function RecipientsRegister({ match }) {
   );
 }
 
-/*
-{id ? (
-        <ProfilePicture>
-          {foto ? <img src={foto} alt={nome} /> : <FaUserCircle size={180} />}
-          <Link to={`/fotos/${id}`}>
-            <FaEdit size={24} />
-          </Link>
-        </ProfilePicture>
-      ) : null}
-      */
+RecipientsRegister.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.number,
+    }).isRequired,
+  }).isRequired,
+};

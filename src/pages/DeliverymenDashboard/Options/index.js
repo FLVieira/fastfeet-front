@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { MdEdit, MdDeleteForever, MdErrorOutline } from 'react-icons/md';
+import PropTypes from 'prop-types';
 
 import {
   Container,
@@ -95,3 +96,11 @@ export default function Options({ data, handleDelete, index }) {
     </>
   );
 }
+
+Options.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+  }).isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+};
