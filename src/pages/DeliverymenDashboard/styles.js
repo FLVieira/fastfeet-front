@@ -59,6 +59,7 @@ export const DeliverymenTable = styled.table`
 
     &:last-child {
       text-align: center;
+      padding-left: 20px;
     }
   }
 
@@ -66,10 +67,6 @@ export const DeliverymenTable = styled.table`
     padding: 10px;
     border-radius: 4px;
     border-bottom: 20px solid #eee;
-
-    &:last-child {
-      text-align: left;
-    }
   }
 
   img {

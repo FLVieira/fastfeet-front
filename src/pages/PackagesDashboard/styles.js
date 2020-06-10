@@ -66,10 +66,6 @@ export const PackagesTable = styled.table`
     padding: 12px;
     border-radius: 4px;
     border-bottom: 20px solid #eee;
-
-    &:last-child {
-      text-align: center;
-    }
   }
 
   div {

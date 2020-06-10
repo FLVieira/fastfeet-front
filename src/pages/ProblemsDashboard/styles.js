@@ -23,7 +23,8 @@ export const ProblemsTable = styled.table`
     padding: 12px 30px 28px 10px;
 
     &:last-child {
-      text-align: right;
+      text-align: center;
+      padding-left: 20px;
     }
   }
 
@@ -31,10 +32,6 @@ export const ProblemsTable = styled.table`
     padding: 10px;
     border-radius: 4px;
     border-bottom: 20px solid #eee;
-
-    &:last-child {
-      text-align: left;
-    }
   }
 
   aside {
